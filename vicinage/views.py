@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import RegistrationForm
 from .models import Profile, Business, Hood, Membership, Post
 from django.contrib.auth.models import User
-
+from .forms import AddBussinessForm, AddHoodForm, AddPostForm,  UpdateProfileForm, UpdateUserForm
 
 # Create your views here.
 
@@ -32,5 +31,6 @@ from django.contrib.auth.models import User
 #     return render(request, 'registration/register.html', params)
 
 
-def index(request):
-    return render(request, 'main/index.html')
+def Index(request):
+    hoods = Hood.objects.all()
+    return render(request, 'main/index.html' {'hoods': hoods})
