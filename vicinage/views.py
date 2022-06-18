@@ -201,7 +201,7 @@ def AddPost(request, username):
     return render(request, 'main/add_post.html', {'form':form})
 
 
-# function for searching a post
+# function for searching a business
 def Search(request):
     if request.method == 'POST':
         search = request.POST['BusinessSearch']
