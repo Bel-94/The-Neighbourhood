@@ -146,6 +146,32 @@ class Business(models.Model):
         verbose_name_plural = 'Businesses'
 
 
+CHOICES = [
+    ('1', 'Crimes and Safety'),
+    ('2', 'Health Emergency'),
+    ('3', 'Recommendations'),
+    ('4', 'Fire Breakouts'),
+    ('5', 'Lost and Found'),
+    ('6', 'Death'),
+    ('7', 'Event'),
+]
+
+class Post(models.Model):
+    title = models.CharField(max_length=200, null=True, verbose_name='Post Title')
+    description = models.TextField(max_length=500, null=True, verbose_name='Post Description')
+    category = models.CharField(max_length=50, null=True, verbose_name='Post Category', choices=CHOICES)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Post Author')
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE, verbose_name='Your Hood')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.title)
+
+    class Meta:
+        verbose_name_plural = 'Posts'
+
+
 
 
     
