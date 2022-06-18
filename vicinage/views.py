@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Profile, Business, Hood, Membership, Post
 from django.contrib.auth.models import User
 from .forms import AddBussinessForm, AddHoodForm, AddPostForm,  UpdateProfileForm, UpdateUserForm
+from Hood import settings
+from django.contrib import messages
 
 # Create your views here.
 
@@ -30,7 +32,99 @@ from .forms import AddBussinessForm, AddHoodForm, AddPostForm,  UpdateProfileFor
 #     }
 #     return render(request, 'registration/register.html', params)
 
-
+# function for creating the landing page
 def Index(request):
     hoods = Hood.objects.all()
     return render(request, 'main/index.html', {'hoods': hoods})
+
+# function for creating user profile
+def Profile(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    return render(request, 'main/profile.html', {'profile':profile, 'profile_details':profile_details})
+
+# function for edditing user profile
+def EditProfile(request, username):
+    user = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = user.id)
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            profile_picture = profile_form.cleaned_data['profile_pic']
+            neighbourhood = profile_form.cleaned_data['hood']
+            bio = profile_form.cleaned_data['bio']
+            national_id = profile_form.cleaned_data['national_id']
+            first_name = user_form.cleaned_data['first_name']
+            last_name = user_form.cleaned_data['last_name']
+            username = user_form.cleaned_data['username']
+            user.username = username
+            user.first_name = first_name
+            user.last_name = last_name
+            profile_details.national_id = national_id
+            profile_details.bio = bio
+            profile_details.profile_picture = profile_picture
+            profile_details.neighbourHood = Hood.objects.get(pk=int(neighbourhood))
+
+            neighbourhood_obj = Hood.objects.get(pk=int(neighbourhood))
+            member = Membership.objects.filter(user = profile_details.id, neighbourhood_membership = neighbourhood_obj.id)
+
+            if not member:
+                messages.error(request, "⚠️ You Need To Be A Member of The Selected Neighbourhood First!")
+                return redirect('EditProfile', username=username)
+            else:   
+                user.save()
+                profile_details.save()
+                messages.success(request, '✅ Your Profile Has Been Updated Successfully!')
+                return redirect('EditProfile', username=username)
+        else:
+            messages.error(request, "⚠️ Your Profile Wasn't Updated!")
+            return redirect('EditProfile', username=username)
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'main/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form, 'profile_details':profile_details})
+
+# function for adding a business
+def AddBusiness(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    form = AddBussinessForm()
+    if request.method == "POST":
+        form = AddBussinessForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            neighbourhood = form.cleaned_data['neighbourhood']
+            description = form.cleaned_data['description']
+
+            neighbourhood_obj = Hood.objects.get(pk=int(neighbourhood))
+            member = Membership.objects.filter(user = profile.id, neighbourhood_membership = neighbourhood_obj.id)
+
+            if not member:
+                messages.error(request, "⚠️ You Need To Be A Member of The Selected Neighbourhood First!")
+                return redirect('AddBusiness', username=username)
+
+            else:
+                neighbourhood_obj = Hood.objects.get(pk=int(neighbourhood))
+                new_business = Business(name = name, email = email, neighbourhood = neighbourhood_obj, description = description, owner = request.user.profile)
+                new_business.save()
+
+                messages.success(request, '✅ A Business Was Created Successfully!')
+                return redirect('MyBusinesses', username=username)
+        else:
+            messages.error(request, "⚠️ A Business Wasn't Created!")
+            return redirect('AddBusiness')
+    else:
+        form = AddBussinessForm()
+    return render(request, 'main/add_business.html', {'form':form})
+
+
+
+
+
+
+
+
