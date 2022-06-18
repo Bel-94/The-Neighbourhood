@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Profile, Business, Hood, Membership, Post
 from django.contrib.auth.models import User
@@ -212,7 +212,59 @@ def Search(request):
         return render(request, 'main/search.html')
 
 
+# function for a singlehood
+def SingleNeighbourhood(request, name):
+    current_profile = request.user.profile
+    neighbourhood = get_object_or_404(Hood, name=name)
+    businesses = Business.objects.filter(neighbourhood = neighbourhood.id).all()
+    posts = Post.objects.filter(neighbourhood = neighbourhood.id).all()
+    members = Membership.objects.filter(neighbourhood_membership=neighbourhood.id).all()
+    member = Membership.objects.filter(user = current_profile.id, neighbourhood_membership = neighbourhood.id)
+    is_member = False
+    if member:
+        is_member = True
+    else:
+        is_member = False
+    return render(request, 'main/hood.html', {'neighbourhood': neighbourhood, 'businesses':businesses, 'posts':posts, 'is_member':is_member, 'members':members})
 
 
+# function for joining a hood
+def JoinNeighbourhood(request, name):
+    neighbourhoodTobejoined = Hood.objects.get(name=name)
+    currentUserProfile = request.user.profile
+
+    if not neighbourhoodTobejoined:
+        messages.error(request, "⚠️ Hood Does Not Exist!")
+        return redirect('Index')
+    else:
+        member_elsewhere = Membership.objects.filter(user = currentUserProfile)
+        joined = Membership.objects.filter(user = currentUserProfile, neighbourhood_membership = neighbourhoodTobejoined)
+        if joined:
+            messages.error(request, '⚠️ You Can Only Join A Hood Once!')
+            return redirect('SingleNeighbourhood', name=name)
+        elif member_elsewhere:
+            messages.error(request, '⚠️ You Are Already A Member In Another Hood! Leave To Join This One')
+            return redirect('SingleNeighbourhood', name=name)
+        else:
+            neighbourhoodToadd = Membership(user = currentUserProfile, neighbourhood_membership = neighbourhoodTobejoined)
+            neighbourhoodToadd.save()
+            messages.success(request, "✅ You Are Now A Member Of This NeighbourHood!")
+            return redirect('SingleNeighbourhood', name=name)
+
+
+# function for leaving a hood
+def LeaveNeighbourhood(request, name):
+    neighbourhoodToLeave = Hood.objects.get(name=name)
+    currentUserProfile = request.user.profile
+
+    if not neighbourhoodToLeave:
+        messages.error(request, "⚠️ Hood Does Not Exist!")
+        return redirect('Index')
+    else:
+        membership = Membership.objects.filter(user = currentUserProfile, neighbourhood_membership = neighbourhoodToLeave)
+        if membership:
+            membership.delete()
+            messages.success(request, "✅ You Have Left This Hood!")
+            return redirect('SingleNeighbourhood', name=name)
 
 
