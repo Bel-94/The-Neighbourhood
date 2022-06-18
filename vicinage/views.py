@@ -122,8 +122,49 @@ def AddBusiness(request, username):
     return render(request, 'main/add_business.html', {'form':form})
 
 
+# function for creating a user business
+def MyBusinesses(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    businesses = Business.objects.filter(owner = profile.id).all()
+    return render(request, 'main/my_business.html', {'businesses':businesses, 'profile_details':profile_details})
+
+# function for adding a hood
+def AddHood(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    if request.method == 'POST':
+        form = AddHoodForm(request.POST, request.FILES)
+        if form.is_valid():
+            neighbourhood = form.save(commit=False)
+            neighbourhood.neighbourhood_admin = request.user
+            neighbourhood.save()
+            messages.success(request, '✅ A Hood Was Created Successfully!')
+            return redirect('Myhoods', username=username)
+        else:
+            messages.error(request, "⚠️ A Hood Wasn't Created!")
+            return redirect('AddHood')
+    else:
+        form = AddHoodForm()
+    return render(request, 'main/add_hood.html', {'form':form, 'profile_details':profile_details})
 
 
+# function for adding user to a hood
+def Myhoods(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    neighbourhoods = Hood.objects.filter(neighbourhood_admin = profile.id).all()
+    for neighbourhood in neighbourhoods:
+        print(neighbourhood.title)
+        print(neighbourhood.description)
+    return render(request, 'main/my_hoods.html', {'neighbourhoods':neighbourhoods, 'profile_details':profile_details})
+
+# function for creating a post
+def MyPosts(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    posts = Post.objects.filter(author = profile.id).all()
+    return render(request, 'main/my_posts.html', {'posts':posts, 'profile_details':profile_details})
 
 
 
