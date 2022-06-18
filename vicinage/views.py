@@ -71,7 +71,7 @@ def EditProfile(request, username):
             member = Membership.objects.filter(user = profile_details.id, neighbourhood_membership = neighbourhood_obj.id)
 
             if not member:
-                messages.error(request, "⚠️ You Need To Be A Member of The Selected Neighbourhood First!")
+                messages.error(request, "⚠️ You Need To Be A Member of The Selected Hood First!")
                 return redirect('EditProfile', username=username)
             else:   
                 user.save()
