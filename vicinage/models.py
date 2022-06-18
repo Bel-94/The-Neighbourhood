@@ -172,6 +172,17 @@ class Post(models.Model):
         verbose_name_plural = 'Posts'
 
 
+class Membership(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='User')
+    hood_membership = models.ForeignKey(Hood, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.user.username + ' ' + self.hood_membership.name)
+
+    class Meta:
+        verbose_name_plural = 'Memberships'
 
 
     
