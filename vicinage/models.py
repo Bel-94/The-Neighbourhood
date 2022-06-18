@@ -110,4 +110,42 @@ class Profile(models.Model):
     class Meta:
         verbose_name_plural = 'Profiles'
 
+class Business(models.Model):
+    name = models.CharField(max_length=80, null=True, verbose_name='Business Name')
+    description = models.TextField(max_length=500, null=True)
+    email = models.CharField(max_length=150, null=True, verbose_name='Business Email Address')
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=15, null=True, verbose_name='Business Phone Number')
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Business Owner')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.name)
+
+    def get_businesses(self):
+        businesses = Business.objects.all()
+        return businesses
+
+    def create_business(self):
+        self.save()
+
+    def delete_business(self):
+        self.delete()
+
+    def find_business(self,business_id):
+        business = Business.objects.filter(self = business_id)
+        return business
+
+    def update_business(self, id, name, description, email, hood):
+        update = Hood.objects.filter(id = id).update(name = name , description = description, email = email, hood = hood)
+        return update
+    
+
+    class Meta:
+        verbose_name_plural = 'Businesses'
+
+
+
+
     
