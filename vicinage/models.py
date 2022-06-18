@@ -94,4 +94,20 @@ class Hood(models.Model):
     class Meta:
         verbose_name_plural = 'Hoods'
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, null=True)
+    national_id = models.CharField(max_length=10, null=True)
+    profile_pic = CloudinaryField('profile_pic', default='https://res.cloudinary.com/dz275mqsc/image/upload/v1654858776/default_nbsolf.png')
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
+    email_confirmed = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.user.username)
+
+    class Meta:
+        verbose_name_plural = 'Profiles'
+
     
