@@ -33,4 +33,4 @@ from .forms import AddBussinessForm, AddHoodForm, AddPostForm,  UpdateProfileFor
 
 def Index(request):
     hoods = Hood.objects.all()
-    return render(request, 'main/index.html' {'hoods': hoods})
+    return render(request, 'main/index.html', {'hoods': hoods})
