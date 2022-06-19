@@ -23,7 +23,7 @@
             {% for neighbourhood in neighbourhoods %}
             <div class="col-sm-4">
                 <div class="card" style="margin-bottom: 30px; border-radius: 3px;">
-                    <a href="{% url 'SingleNeighbourhood' neighbourhood.name %}" name="SingleNeighbourhood">
+                    <a href="{% url 'SingleHood' neighbourhood.name %}" name="SingleHood">
                         {% if neighbourhood.image %}
                             <img src="{{ neighbourhood.image.url }}" class="card-img-top" style="border-radius: 3px 3px 0px 0px;" alt="...">
                         {% else %}
@@ -50,7 +50,7 @@
                             <br>
                         </div>
                         <br>
-                        <a href="{% url 'SingleNeighbourhood' neighbourhood.name %}" name="SingleNeighbourhood">
+                        <a href="{% url 'SingleHood' neighbourhood.name %}" name="SingleHood">
                             <button class="btn btn-primary btn-block">More Details</button>
                         </a>
                     </div>

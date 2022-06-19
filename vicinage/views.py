@@ -64,8 +64,8 @@ def EditProfile(request, username):
             user.last_name = last_name
             profile_details.national_id = national_id
             profile_details.bio = bio
-            profile_details.profile_picture = profile_picture
-            profile_details.neighbourHood = Hood.objects.get(pk=int(neighbourhood))
+            profile_details.profile_pic = profile_picture
+            profile_details.hood = Hood.objects.get(pk=int(neighbourhood))
 
             neighbourhood_obj = Hood.objects.get(pk=int(neighbourhood))
             member = Membership.objects.filter(user = profile_details.id, neighbourhood_membership = neighbourhood_obj.id)
@@ -137,7 +137,7 @@ def AddHood(request, username):
         form = AddHoodForm(request.POST, request.FILES)
         if form.is_valid():
             neighbourhood = form.save(commit=False)
-            neighbourhood.neighbourhood_admin = request.user
+            neighbourhood.admin = request.user
             neighbourhood.save()
             messages.success(request, '✅ A Hood Was Created Successfully!')
             return redirect('Myhoods', username=username)

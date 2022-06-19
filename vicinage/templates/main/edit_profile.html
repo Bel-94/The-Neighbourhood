@@ -87,7 +87,7 @@
                                             <select name="hood" class="form-control mb-4" placeholder="Select Hood">
                                                 <option value="" selected disabled>Select Hood</option>
                                                 {% for id, name in profile_form.fields.hood.choices %}
-                                                <option value="{{ id }}">{{ title }}</option>
+                                                <option value="{{ id }}">{{ name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>

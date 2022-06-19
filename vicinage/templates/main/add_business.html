@@ -47,9 +47,9 @@
                             <div class="upload">
                                 <label for="fullName">Hood <span class="text-danger">*</span></label>
                                 <select name="Hood" class="form-control mb-4" placeholder="Select Hood">
-                                    <option value="" selected disabled>Select Neighbourhood</option>
-                                    {% for id, name in form.fields.neighbourhood.choices %}
-                                    <option value="{{ id }}">{{ name }}</option>
+                                    <option value="" selected disabled>Select Hood</option>
+                                    {% for id, name in form.fields.hood.choices %} #if it doesnt work will change to neighbourhood
+                                    <option value="{{ id }}">{{ title }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

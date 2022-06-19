@@ -21,7 +21,7 @@
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
             <li class="breadcrumb-item"><a href="javascript:void(0)">{{ profile_details.user.first_name }} {{ profile_details.user.last_name }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">NeighbourHoods</li>
+            <li class="breadcrumb-item active" aria-current="page">Hoods</li>
             </ol>
         </nav>
         <!-- /Breadcrumb -->
@@ -81,8 +81,8 @@
                 <div class="content text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M19 2H9c-1.103 0-2 .897-2 2v5.586l-4.707 4.707A1 1 0 0 0 3 16v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4c0-1.103-.897-2-2-2zm-8 18H5v-5.586l3-3 3 3V20zm8 0h-6v-4a.999.999 0 0 0 .707-1.707L9 9.586V4h10v16z"></path><path d="M11 6h2v2h-2zm4 0h2v2h-2zm0 4.031h2V12h-2zM15 14h2v2h-2zm-8 1h2v2H7z"></path></svg>
                     <br>
-                    <h4 class="text-dark py-3">No Associated NeighbourHoods Found</h4>
-                    <a href="{% url 'AddNeighbourhood' user.username %}" name="AddNeighbourhood">
+                    <h4 class="text-dark py-3">No Associated Hoods Found</h4>
+                    <a href="{% url 'AddHood' user.username %}" name="AddHood">
                         <button type="submit" class="btn btn-primary btn-md" style="margin-right: 20px;"><i class="fa-solid fa-plus"></i> Add A Neighbourhood</button>
                     </a>
                     <br>
