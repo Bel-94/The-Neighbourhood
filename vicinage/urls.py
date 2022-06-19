@@ -16,9 +16,9 @@ urlpatterns = [
     path('<str:username>/businesses/', views.MyBusinesses, name='MyBusinesses'),
     path('search', views.Search, name="Search"),
     path('<str:username>/add/post/', views.AddPost, name='AddPost'),
-    path('join/neighbourhood/<str:title>', views.JoinNeighbourhood, name="JoinNeighbourhood"),
-    path('leave/neighbourhood/<str:title>', views.LeaveNeighbourhood, name="LeaveNeighbourhood"),
-    path('neighbourhood/<str:title>/', views.SingleNeighbourhood, name='SingleNeighbourhood'),
+    path('join/neighbourhood/<str:title>', views.JoinHood, name="JoinHood"),
+    path('leave/neighbourhood/<str:title>', views.LeaveHood, name="LeaveHood"),
+    path('neighbourhood/<str:title>/', views.SingleHood, name='SingleHood'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
