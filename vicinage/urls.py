@@ -6,6 +6,9 @@ from . import views
 #create urls for the app
 
 urlpatterns = [
+    path('register', views.Register, name="Register"),
+    path('login', views.Login, name="Login"),
+    path('logout', views.Logout, name="Logout"),
     path('', views.Index, name='Index'),
     path('profile/<str:username>/edit', views.EditProfile, name="EditProfile"),
     path('profile/<str:username>', views.MyProfile, name="Profile"),
