@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+# from url_or_relative_url_field.fields import URLOrRelativeURLField
 
 
 # Create your models here.

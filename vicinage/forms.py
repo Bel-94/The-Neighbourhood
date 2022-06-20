@@ -77,7 +77,7 @@ class UpdateUserForm(forms.ModelForm):
 
 
 class UpdateProfileForm(forms.ModelForm):
-    profile_pic = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'dropify', 'data-height':420, 'data-max-file-size':"1M"}))
+    profile_pic = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'dropify', 'data-height':420, 'data-max-file-size':"20M"}))
     bio = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'form-control mb-4', 'rows': 5, 'placeholder':'Keep it short, preferably in one concise sentence'}))
     national_id = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': 'form-control mb-4', 'placeholder':'National ID'}))
     hood = forms.ChoiceField(label=u'Select Your Hood', required=True, widget=forms.Select(attrs={'class': 'form-control mb-4'}))
@@ -106,7 +106,7 @@ class AddHoodForm(forms.ModelForm):
     description = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': 'Description','class': 'form-control mb-4','rows': 3,}))
     location = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Location','class': 'form-control mb-4'}))
     county = forms.ChoiceField(required=True, widget=forms.Select( attrs={'class': 'form-control mb-4'}), choices=COUNTIES)
-    image = forms.ImageField(required=True, widget=forms.FileInput(attrs={'class': 'dropify', 'data-height':300, 'data-max-file-size':"1M"}))
+    image = forms.ImageField( widget=forms.FileInput(attrs={'class': 'dropify', 'data-height':300, 'data-max-file-size':"20M"}))
     health_department = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Health Department','class': 'form-control mb-4'}))
     police_department = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Police Department','class': 'form-control mb-4'}))
 

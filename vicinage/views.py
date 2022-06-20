@@ -38,7 +38,7 @@ def Index(request):
     return render(request, 'main/index.html', {'hoods': hoods})
 
 # function for creating user profile
-def Profile(request, username):
+def MyProfile(request, username):
     profile = User.objects.get(username=username)
     profile_details = Profile.objects.get(user = profile.id)
     return render(request, 'main/profile.html', {'profile':profile, 'profile_details':profile_details})
@@ -97,7 +97,7 @@ def AddBusiness(request, username):
         if form.is_valid():
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
-            neighbourhood = form.cleaned_data['neighbourhood']
+            neighbourhood = form.cleaned_data['hood']
             description = form.cleaned_data['description']
 
             neighbourhood_obj = Hood.objects.get(pk=int(neighbourhood))
@@ -130,34 +130,40 @@ def MyBusinesses(request, username):
     return render(request, 'main/my_business.html', {'businesses':businesses, 'profile_details':profile_details})
 
 # function for adding a hood
-def AddHood(request, username):
-    profile = User.objects.get(username=username)
-    profile_details = Profile.objects.get(user = profile.id)
+def AddHood(request):
+    # profile = User.objects.get(username=username)
+    # profile_details = Profile.objects.get(user = profile.id)
+
+    current_user = request.user
+    hoods = Hood.objects.all()
+    
     if request.method == 'POST':
         form = AddHoodForm(request.POST, request.FILES)
         if form.is_valid():
             neighbourhood = form.save(commit=False)
-            neighbourhood.admin = request.user
+            neighbourhood.admin = current_user
             neighbourhood.save()
             messages.success(request, '✅ A Hood Was Created Successfully!')
-            return redirect('Myhoods', username=username)
+            return redirect('/')
         else:
             messages.error(request, "⚠️ A Hood Wasn't Created!")
             return redirect('AddHood')
     else:
         form = AddHoodForm()
-    return render(request, 'main/add_hood.html', {'form':form, 'profile_details':profile_details})
+    return render(request, 'main/add_hood.html', {'form':form, 'hoods':hoods})
 
 
 # function for adding user to a hood
-def Myhoods(request, username):
-    profile = User.objects.get(username=username)
-    profile_details = Profile.objects.get(user = profile.id)
-    neighbourhoods = Hood.objects.filter(neighbourhood_admin = profile.id).all()
-    for neighbourhood in neighbourhoods:
-        print(neighbourhood.name)
-        print(neighbourhood.description)
-    return render(request, 'main/my_hoods.html', {'neighbourhoods':neighbourhoods, 'profile_details':profile_details})
+def Myhoods(request):
+    # profile = User.objects.get(username=username)
+    # profile_details = Profile.objects.get(user = profile.id)
+    # neighbourhoods = Hood.objects.filter(admin = profile.id).all()
+    # for neighbourhood in neighbourhoods:
+    #     print(neighbourhood.name)
+    #     print(neighbourhood.description)
+    hoods = Hood.objects.all().order_by('-id')
+
+    return render(request, 'main/my_hoods.html', {'hoods':hoods})
 
 # function for creating a post
 def MyPosts(request, username):
@@ -214,12 +220,13 @@ def Search(request):
 
 # function for a singlehood
 def SingleHood(request, name):
-    current_profile = request.user.profile
+    # current_profile = request.user.profile
+    current_user = request.user
     neighbourhood = get_object_or_404(Hood, name=name)
-    businesses = Business.objects.filter(neighbourhood = neighbourhood.id).all()
-    posts = Post.objects.filter(neighbourhood = neighbourhood.id).all()
-    members = Membership.objects.filter(neighbourhood_membership=neighbourhood.id).all()
-    member = Membership.objects.filter(user = current_profile.id, neighbourhood_membership = neighbourhood.id)
+    businesses = Business.objects.filter(hood = neighbourhood.id).all()
+    posts = Post.objects.filter(hood = neighbourhood.id).all()
+    members = Membership.objects.filter(hood_membership=neighbourhood.id).all()
+    member = Membership.objects.filter(user = current_user.id, hood_membership = neighbourhood.id)
     is_member = False
     if member:
         is_member = True
