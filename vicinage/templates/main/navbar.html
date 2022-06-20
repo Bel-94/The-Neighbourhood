@@ -51,14 +51,13 @@
                                 <a class="dropdown-item" href="{% url 'Myhoods' user.username %}" name="Myhoods"><i class="fa-solid fa-location-pin"></i> Hoods</a>
                                 <a class="dropdown-item" href="{% url 'MyPosts' user.username %}" name="MyPosts"><i class="fa-solid fa-file"></i> Posts</a>
                                 <a class="dropdown-item" href="{% url 'EditProfile' user.username %}" name="EditProfile"><i class="fa-solid fa-edit"></i> Edit Profile</a>
-                                {% comment %} <a class="dropdown-item" href="{% url 'Settings' user.username %}" name="Settings"><i class="fa-solid fa-cog"></i> Settings</a>
-                                <a class="dropdown-item" href="{% url 'Logout' %}" name="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a> {% endcomment %}
+                                <a class="dropdown-item" href="{% url 'Logout' %}" name="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                             </div>
                         </div>
                     {% else %}
-                        {% comment %} <a href="{% url 'Register' %}" name='Register'>
-                            <button class="btn btn-md btn-primary ms-3" style="margin-left: 30px;">Get Started</button>
-                        </a> {% endcomment %}
+                    <a href="{% url 'Register' %}" name='Register'>
+                        <button class="btn btn-md btn-primary ms-3" style="margin-left: 30px;">Get Started</button>
+                    </a>
                     {% endif %}
                 </div>
             </div>
