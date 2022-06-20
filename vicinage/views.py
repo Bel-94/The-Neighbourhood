@@ -77,7 +77,7 @@ def Register(request):
             messages.success(request, '✅ Regristration Successful! An Activation Link Has Been Sent To Your Email')
             return redirect('Register')
 
-    return render(request, 'Register.html')
+    return render(request, 'registration/register.html')
 
 def ActivateAccount(request, uidb64, token):
     try:
@@ -113,14 +113,14 @@ def Login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('Home')
+            return redirect('Index')
         
-    return render(request, 'Login.html')
+    return render(request, 'registration/login.html')
 
 @login_required(login_url='Login')
 def Logout(request):
     logout(request)
-    return redirect('Home')
+    return redirect('Index')
 
 # function for creating the landing page
 def Index(request):

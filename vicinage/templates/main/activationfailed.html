@@ -1,4 +1,4 @@
-{% extends "Base.html" %}
+{% extends "main/base.html" %}
 {% load static %}
 
 {% block content %}
@@ -19,15 +19,15 @@
     <div class="form shadow"> 
         <div id="login">
             <center>
-                <a href="{% url 'Home' %}" name = 'Home' class="logo">
-                    <img src={% static "assets/img/logo.png" %} alt="">
+                <a href="{% url 'Index' %}" name = 'Index' class="logo">
+                    <img src="static/img/logo.png" alt="">
                 </a>
             </center>
             <br>   
             <h4 class="text-center">Reset Link Expired</h4>
             <p class="text-center">The email activation link has already been used. You cannot use it again</p>
               <a href="{% url 'Login' %}" name='Login'>
-                <button class="button button-block">Back To Sing In</button>
+                <button class="button button-block">Back To Sign In</button>
               </a>  
             <p class="text-center mt-2">
             </p>
@@ -38,7 +38,7 @@
         <footer class="page-footer">
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3 text-dark">
-                © Copyright 2022 Nyumba Kumi
+                © Copyright 2022 The Vicinage
             </div>
             <!-- Copyright -->
         </footer>
