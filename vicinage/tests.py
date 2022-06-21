@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Hood, Profile, Business, Post
+from .models import Hood, Profile, Business
 from django.contrib.auth.models import User
 
 
@@ -36,7 +36,7 @@ class HoodTestClass(TestCase):
 
 class TestBusiness(TestCase):
     def setUp(self):
-        self.new_business=Business(name = "Cybafric", description="IT Company", email='info@cybafric.com', neighbourhood="Kasarani", owner=profile)
+        self.new_business=Business(bs_name = "", description="", bs_email='', owner=profile)
         self.new_business.save()
 
     def test_instance(self):
