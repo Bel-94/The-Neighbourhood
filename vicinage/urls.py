@@ -6,23 +6,17 @@ from . import views
 #create urls for the app
 
 urlpatterns = [
-    path('register', views.Register, name="Register"),
-    path('login', views.Login, name="Login"),
-    path('logout', views.Logout, name="Logout"),
-    path('activateuser/<uidb64>/<token>',views.ActivateAccount, name = 'ActivateAccount'),
-    path('', views.Index, name='Index'),
-    path('profile/<str:username>/edit', views.EditProfile, name="EditProfile"),
-    path('profile/<str:username>', views.MyProfile, name="Profile"),
-    path('<str:username>/add/business/', views.AddBusiness, name='AddBusiness'),
-    path('add/neighbourhood/', views.AddHood, name='AddHood'),
-    path('<str:username>/neighbourhoods/', views.Myhoods, name='Myhoods'),
-    path('<str:username>/posts/', views.MyPosts, name='MyPosts'),
-    path('<str:username>/businesses/', views.MyBusinesses, name='MyBusinesses'),
-    path('search', views.Search, name="Search"),
-    path('<str:username>/add/post/', views.AddPost, name='AddPost'),
-    path('join/neighbourhood/<str:name>', views.JoinHood, name="JoinHood"),
-    path('leave/neighbourhood/<str:name>', views.LeaveHood, name="LeaveHood"),
-    path('neighbourhood/<str:name>/', views.SingleHood, name='SingleHood'),
+    path('', views.index, name='index'),
+    path('profile/<username>', views.profile, name='profile'),
+    path('profile/<username>/edit/', views.edit_profile, name='edit-profile'),
+    path('new-hood/', views.new_hood, name='new-hood'),
+    path('view-hood/<hood_id>', views.view_hood, name='view-hood'),
+    path('view-hood/<hood_id>/new-business', views.add_business, name='add-biz'),
+    path('join_hood/<id>', views.join_hood, name='join-hood'),
+    path('leave_hood/<id>', views.leave_hood, name='leave-hood'),
+    path('search/', views.search_business, name='search'),
+    path('<hood_id>/members', views.hood_members, name= 'hood_members'),
+    path('<hood_id>/add-post', views.new_post, name='post'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
