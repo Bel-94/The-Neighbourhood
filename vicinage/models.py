@@ -48,12 +48,12 @@ class Profile(models.Model):
 
 
 class Business(models.Model):
-    bs_name= models.CharField(max_length=100)
+    bs_name= models.CharField(max_length=100, null=True)
     description = models.TextField(max_length=500, null=True)
-    bs_logo = CloudinaryField('image')
+    bs_logo = CloudinaryField('image', null=True)
     owner = models.ForeignKey(Profile,on_delete=models.CASCADE, related_name='business')
     hood = models.ForeignKey(Hood,on_delete=models.CASCADE, related_name='business')
-    bs_email = models.EmailField(max_length=50)
+    bs_email = models.EmailField(max_length=50, null=True)
     facebook =URLOrRelativeURLField(max_length=100, default='https://web.facebook.com/')
     instagram = URLOrRelativeURLField(max_length=100, default='https://www.instagram.com/' )
     twitter = URLOrRelativeURLField(max_length=100, default='https://twitter.com/')

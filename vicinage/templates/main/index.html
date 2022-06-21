@@ -3,15 +3,15 @@
 {% load static %}
 {% block content%}
 {% include "main/navbar.html" %}
-<div class="container">
+<div class="container" style="">
   <a href="{% url 'new-hood' %}" class="btn btn-sm btn-info mb-2"> New Hood</a>
 <div class="row">
   {% for hood in hoods %}
   <div class="col-md-4">
       <div class="card mb-4" style="min-height:340px">
           <img src="{{ hood.hoodimage.url }}" class="card-img-top" alt="{{ hood.name }}">
-          <div class="card-body">
-              <h5 class="card-title">{{ hood.name }}  ({{hood.location}}) <span class="ml-4">{{hood.members.count}} member{{hood.members.count|pluralize}}</span></h5>
+          <div class="card-body" style="background-color: black; color: white;">
+              <h5 class="card-title" style="font-weight: bold; color: #FFD700;">{{ hood.name }}  ({{hood.location}}) <span class="ml-4">{{hood.members.count}} member{{hood.members.count|pluralize}}</span></h5>
               <p class="card-text">{{hood.description}}</p>
               {% if request.user.profile.location == hood %}
               <a href="{% url 'leave-hood' hood.id %}" class="btn btn-outline-danger btn-sm">Leave Hood</a>
