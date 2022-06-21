@@ -54,7 +54,7 @@ def new_hood(request):
             return redirect('index')
     else:
         form = HoodForm()
-    return render(request, 'main/create_hood.html', {'form': form})
+    return render(request, 'main/add_hood.html', {'form': form})
 def view_hood(request, hood_id):
     hood = Hood.objects.get(id =hood_id)
     business = Business.objects.filter(hood = hood)
@@ -65,7 +65,7 @@ def view_hood(request, hood_id):
         'business': business,
         'news': news
     }
-    return render(request, 'main/view_hood.html', ctx)
+    return render(request, 'main/single_hood.html', ctx)
 def add_business(request, hood_id):
     if request.method == 'POST':
         hood = Hood.objects.get(id =hood_id)
@@ -79,7 +79,7 @@ def add_business(request, hood_id):
     else:
         form = BusinessForm()
 
-    return render(request, 'main/new_business.html', {"form" : form})
+    return render(request, 'main/add_business.html', {"form" : form})
 def join_hood(request, id):
     try:
         hood = Hood.objects.get(id =id)
@@ -109,10 +109,10 @@ def search_business(request):
             'results': results,
             'message': message
         }
-        return render(request, 'main/results.html', ctx)
+        return render(request, 'main/search_results.html', ctx)
     else:
         message = "You haven't searched for any Business"
-    return render(request, "main/results.html")
+    return render(request, "main/search_results.html")
 
 def hood_members(request, hood_id):
     hood = Hood.objects.get(id =hood_id)
@@ -120,7 +120,7 @@ def hood_members(request, hood_id):
     ctx ={
         'residents':residents
     }
-    return render(request, 'main/hood_residents.html', ctx)
+    return render(request, 'main/my_hoods.html', ctx)
 
 def new_post(request, hood_id):
     hood = Hood.objects.get(id =hood_id)
