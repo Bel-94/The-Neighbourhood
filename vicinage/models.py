@@ -1,132 +1,65 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-# from url_or_relative_url_field.fields import URLOrRelativeURLField
-
+from url_or_relative_url_field.fields import URLOrRelativeURLField
 
 # Create your models here.
-
-COUNTIES = [
-    ('', ('Choose')), 
-    ('Baringo', ('Baringo')),
-    ('Bomet', ('Bomet')),
-    ('Bungoma ', ('Bungoma ')),
-    ('Busia', ('Busia')),
-    ('Elgeyo Marakwet', ('Elgeyo Marakwet')),
-    ('Embu', ('Embu')),
-    ('Garissa', ('Garissa')),
-    ('Homa Bay', ('Homa Bay')),
-    ('Isiolo', ('Isiolo')),
-    ('Kajiado', ('Kajiado')),
-    ('Kakamega', ('Kakamega')),
-    ('Kericho', ('Kericho')),
-    ('Kiambu', ('Kiambu')),
-    ('Kilifi', ('Kilifi')),
-    ('Kirinyaga', ('Kirinyaga')),
-    ('Kisii', ('Kisii')),
-    ('Kisumu', ('Kisumu')),
-    ('Kitui', ('Kitui')),
-    ('Kwale', ('Kwale')),
-    ('Laikipia', ('Laikipia')),
-    ('Lamu', ('Lamu')),
-    ('Machakos', ('Machakos')),
-    ('Makueni', ('Makueni')),
-    ('Mandera', ('Mandera')),
-    ('Meru', ('Meru')),
-    ('Migori', ('Migori')),
-    ('Marsabit', ('Marsabit')),
-    ('Mombasa', ('Mombasa')),
-    ('Muranga', ('Muranga')),
-    ('Nairobi', ('Nairobi')),
-    ('Nakuru', ('Nakuru')),
-    ('Nandi', ('Nandi')),
-    ('Narok', ('Narok')),
-    ('Nyamira', ('Nyamira')),
-    ('Nyandarua', ('Nyandarua')),
-    ('Nyeri', ('Nyeri')),
-    ('Samburu', ('Samburu')),
-    ('Siaya', ('Siaya')),
-    ('Taita Taveta', ('Taita Taveta')),
-    ('Tana River', ('Tana River')),
-    ('Tharaka Nithi', ('Tharaka Nithi')),
-    ('Trans Nzoia', ('Trans Nzoia')),
-    ('Turkana', ('Turkana')),
-    ('Uasin Gishu', ('Uasin Gishu')),
-    ('Vihiga', ('Vihiga')),
-    ('Wajir', ('Wajir')),
-    ('West Pokot', ('West Pokot')),
-]
-
-
-
 class Hood(models.Model):
     name = models.CharField(max_length=50)
-    location = models.CharField(max_length=50)
-    county = models.CharField(choices=COUNTIES, max_length=50)
-    description = models.TextField(max_length=500)
-    admin = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = CloudinaryField('image', default='https://res.cloudinary.com/dz275mqsc/image/upload/v1654858776/default_nbsolf.png')
-    police_department = models.CharField(max_length=25, null=True)
-    health_department = models.CharField(max_length=25, null=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
+    location = models.CharField(max_length=60)
+    admin = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='admin')
+    hoodimage = CloudinaryField('hoodimage', null=True)
+    description = models.TextField(max_length=500, null=True)
+    police_number = models.IntegerField(null=True, blank=True)
+    emergency_no = models.IntegerField(null=True, blank=True)
 
-    def get_hoods(self):
-        hoods = Hood.objects.all()
-        return hoods
-    
+    def __str__(self):
+        return f'{self.name} hood'
+
     def create_hood(self):
         self.save()
+
+    def update_hood(self):
+      self.save()
 
     def delete_hood(self):
         self.delete()
 
-    def find_hood(self,hood_id):
-        hood = Hood.objects.filter(self = hood_id)
-        return hood
-
-    def update_hood(self, id, name, location, county, image):
-        update = Hood.objects.filter(id = id).update(name = name , location = location, county = county, image = image)
-        return update
-
-    def __str__(self):
-        return str(self.name)
-    
-    class Meta:
-        verbose_name_plural = 'Hoods'
+    @classmethod
+    def find_hood(cls, hood_id):
+        return cls.objects.filter(id=hood_id)
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, null=True)
-    national_id = models.CharField(max_length=10, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
+    bio = models.TextField(max_length=250, null=True, blank=True)
     profile_pic = CloudinaryField('profile_pic', default='https://res.cloudinary.com/dz275mqsc/image/upload/v1654858776/default_nbsolf.png')
-    hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
-    email_confirmed = models.BooleanField(default=False)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
+    full_name = models.CharField(blank=True, max_length=120)
+    profession = models.CharField(blank=True, max_length=120)
+    email_address = models.EmailField(null=True, blank=True)
+    website_url= URLOrRelativeURLField(null=True,blank=True)
+    facebook =URLOrRelativeURLField(null=True,blank=True)
+    instagram = URLOrRelativeURLField(null=True,blank=True)
+    twitter = URLOrRelativeURLField(null=True,blank=True)
+    mobile_number = models.IntegerField(null=True, blank=True)
+    location = models.ForeignKey(Hood, on_delete=models.SET_NULL, null=True, related_name='members', blank=True)
 
     def __str__(self):
-        return str(self.user.username)
+        return str(self.user)
 
-    class Meta:
-        verbose_name_plural = 'Profiles'
 
 class Business(models.Model):
-    name = models.CharField(max_length=80, null=True, verbose_name='Business Name')
+    bs_name= models.CharField(max_length=100)
     description = models.TextField(max_length=500, null=True)
-    email = models.CharField(max_length=150, null=True, verbose_name='Business Email Address')
-    hood = models.ForeignKey(Hood, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15, null=True, verbose_name='Business Phone Number')
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Business Owner')
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
+    bs_logo = CloudinaryField('image')
+    owner = models.ForeignKey(Profile,on_delete=models.CASCADE, related_name='business')
+    hood = models.ForeignKey(Hood,on_delete=models.CASCADE, related_name='business')
+    bs_email = models.EmailField(max_length=50)
+    facebook =URLOrRelativeURLField(max_length=100, default='https://web.facebook.com/')
+    instagram = URLOrRelativeURLField(max_length=100, default='https://www.instagram.com/' )
+    twitter = URLOrRelativeURLField(max_length=100, default='https://twitter.com/')
 
     def __str__(self):
-        return str(self.name)
-
-    def get_businesses(self):
-        businesses = Business.objects.all()
-        return businesses
+        return self.bs_name
 
     def create_business(self):
         self.save()
@@ -134,56 +67,22 @@ class Business(models.Model):
     def delete_business(self):
         self.delete()
 
-    def find_business(self,business_id):
-        business = Business.objects.filter(self = business_id)
-        return business
+    @classmethod
+    def search_business(cls, name):
+        return cls.objects.filter(name__icontains=name).all()
 
-    def update_business(self, id, name, description, email, hood):
-        update = Hood.objects.filter(id = id).update(name = name , description = description, email = email, hood = hood)
-        return update
-    
-
-    class Meta:
-        verbose_name_plural = 'Businesses'
-
-
-CHOICES = [
-    ('1', 'Crimes and Safety'),
-    ('2', 'Health Emergency'),
-    ('3', 'Recommendations'),
-    ('4', 'Fire Breakouts'),
-    ('5', 'Lost and Found'),
-    ('6', 'Death'),
-    ('7', 'Event'),
-]
-
-class Post(models.Model):
-    title = models.CharField(max_length=200, null=True, verbose_name='Post Title')
-    description = models.TextField(max_length=500, null=True, verbose_name='Post Description')
-    category = models.CharField(max_length=50, null=True, verbose_name='Post Category', choices=CHOICES)
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Post Author')
-    hood = models.ForeignKey(Hood, on_delete=models.CASCADE, verbose_name='Your Hood')
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
+class News(models.Model):
+    title = models.CharField(max_length=120, null=True)
+    details = models.TextField()
+    post_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE, related_name='hood_post')
 
     def __str__(self):
-        return str(self.title)
+        return f'{self.title} post'
 
-    class Meta:
-        verbose_name_plural = 'Posts'
+    def new_post(self):
+        self.save()
 
-
-class Membership(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='User')
-    hood_membership = models.ForeignKey(Hood, on_delete=models.CASCADE)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return str(self.user.username + ' ' + self.hood_membership.name)
-
-    class Meta:
-        verbose_name_plural = 'Memberships'
-
-
-    
+    def delete_post(self):
+        self.delete()
