@@ -2,7 +2,7 @@ body{
     margin-top:20px;
     color: #1a202c;
     text-align: left;
-    background-image: url('https://unsplash.com/photos/RsRTIofe0HE');    
+    background-image: url('/vicinage/static/img/background.avif');    
   }
   .main-body {
     padding: 15px;
