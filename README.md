@@ -51,21 +51,42 @@
 
 </ul>
 
-<h3>Project Setup Instructions</h3>
-To get the code:
-<ol>
-    <li>You can fork the project to add it as one of your repositories.
-    <li>Clone the repo link from github</li>
-    <li>Then clone the link in your machine using the following command: 
-    <p>git clone https://github.com/Bel-94/awwwards.git</p>
-    </li>
-    <li>cd into the project(Instagram-Clone)<p>cd Django-Instagram-Clone</li>
-    <li>create a virtual environment<p>python -m venv env</p></li>
-    <li>activate env<p>source env/bin/activate</p></li>
-    <li>Open CMD & Install Dependencies<p>pip install -r requirements.txt</p></li>
-    <li>Migrate to DB<p>python manage.py makemigrations<br>python manage.py migrate</p></li>
-    <li>Run Application<p>python manage.py runserver</p></li>
-</ol>
+## Setup and Installation  
+To get the project follow these steps:
+
+##### Cloning the repository:  
+ ```bash 
+https://github.com/ThiraTheNerd/neighbourhood.git
+```
+##### Navigate into the folder and install requirements  
+ ```bash 
+cd neighbourhood 
+```
+##### Install and activate Virtual  
+ ```bash 
+- python3 -m venv virtual - source virtual/bin/activate  
+```
+##### Install Dependencies  
+ ```bash 
+ pip install -r requirements.txt 
+``` 
+ ##### Setup Database
+ Create a .env file and fill in the configurations for your database and application.
+ python manage.py makemigrations hoodapp
+ ``` 
+ Now Migrate  
+ ```bash 
+ python manage.py migrate 
+```
+##### Run the application  
+ ```bash 
+ python manage.py runserver 
+``` 
+##### Testing the application  
+ ```bash 
+ python manage.py test 
+```
+Open the application on your browser `127.0.0.1:8000`.  
 
 <h3>Known Bugs</h3>
 <p>There are no known bugs currently but pull requests are allowed incase you spot a bug.</p>
