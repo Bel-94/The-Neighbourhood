@@ -14,7 +14,8 @@ from pathlib import Path
 import os 
 from decouple import config
 import cloudinary, cloudinary.uploader, cloudinary.api
-from django.contrib.messages import constants as messages
+# from django.contrib.messages import constants as messages
+import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -152,19 +153,21 @@ cloudinary.config(
   api_secret = config('CLOUD_API_SECRET') 
 )
 
-MESSAGE_TAGS = {
-    messages.DEBUG: 'alert-secondary',
-    messages.INFO: 'alert-info',
-    messages.SUCCESS: 'alert-success',
-    messages.WARNING: 'alert-warning',
-    messages.ERROR: 'alert-danger',
-}
+django_heroku.settings(locals())
+
+# MESSAGE_TAGS = {
+#     messages.DEBUG: 'alert-secondary',
+#     messages.INFO: 'alert-info',
+#     messages.SUCCESS: 'alert-success',
+#     messages.WARNING: 'alert-warning',
+#     messages.ERROR: 'alert-danger',
+# }
 
 #email configurations for user registration
 # email stuff
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
-EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# EMAIL_HOST = config('EMAIL_HOST')
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
+# EMAIL_PORT = 587
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')

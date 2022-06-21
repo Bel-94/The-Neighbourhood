@@ -2,7 +2,7 @@
 
 <h2>By Belinda Ntinyari<h2>
 
-<p>A Django application where users can post a project they have created and its reviewed by others. API endpoints are provided and can only be accessed only when the user is logged in.</p>
+<p>This is an app that helps you stay in the loop on current news in your neighbourhood. Through the app, you can also view businesses near as well as be updated through posts from other hood members.</p>
 
 ## Screenshots 
 ###### Home page
